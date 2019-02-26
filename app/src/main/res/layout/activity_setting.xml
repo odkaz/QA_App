@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SettingActivity"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameText"
+            android:hint="display name"/>
+
+
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Apply change"
+            android:textColor="@color/colorButtonText"
+            android:background="@drawable/custom_button"
+            android:id="@+id/changeButton"/>
+
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Logout"
+            android:textColor="@color/colorButtonText"
+            android:background="@drawable/custom_button"
+            android:id="@+id/logoutButton"/>
+
+
+</LinearLayout>
