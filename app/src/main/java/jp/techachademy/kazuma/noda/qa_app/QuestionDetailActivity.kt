@@ -3,6 +3,7 @@ package jp.techachademy.kazuma.noda.qa_app
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_question_detail.*
@@ -82,9 +83,52 @@ class QuestionDetailActivity : AppCompatActivity() {
         val databaseReference = FirebaseDatabase.getInstance().reference
         val mAuth = FirebaseAuth.getInstance()
         val user = mAuth.currentUser
-        imageButton.setOnClickListener {
-            val mFabRef = databaseReference.child(UserPATH).child(user!!.uid)
+        val mFabRef = databaseReference.child(UserPATH).child(user!!.uid).child("fab")
+        val data = HashMap<String, String>()
 
+        var flag = false
+        mFabRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val map = dataSnapshot.value as Map<String, String>
+                    Log.d("kotlintest", dataSnapshot.value.toString())
+                    for (i in 0..map.size) {
+
+                        if (map["fab"] == mQuestion.questionUid) {
+
+                            imageButton.setImageResource(R.drawable.ic_fab_clicked)
+                            flag = true
+                        } else {
+                            imageButton.setImageResource(R.drawable.ic_fab_border)
+                            flag = false
+                        }
+                    }
+                }
+            }
+        })
+
+        imageButton.setOnClickListener {
+            if (flag) {
+                imageButton.setImageResource(R.drawable.ic_fab_border)
+                mFabRef.orderByValue().equalTo(mQuestion.questionUid).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        dataSnapshot.ref.setValue(null)
+
+                    }
+                })
+                flag = false
+            } else {
+                imageButton.setImageResource(R.drawable.ic_fab_clicked)
+                mFabRef.push().setValue(mQuestion.questionUid)
+                flag = true
+            }
         }
 
 
