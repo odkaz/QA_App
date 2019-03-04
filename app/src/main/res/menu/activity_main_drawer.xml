@@ -18,6 +18,10 @@
             android:id="@+id/nav_computer"
             android:title="computer"/>
 
+        <item
+            android:id="@+id/nav_favorite"
+            android:title="favorite"/>
+
     </group>
 
 </menu>

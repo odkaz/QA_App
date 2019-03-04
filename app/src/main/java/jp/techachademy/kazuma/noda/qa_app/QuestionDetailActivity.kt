@@ -96,16 +96,13 @@ class QuestionDetailActivity : AppCompatActivity() {
                 if (dataSnapshot.exists()) {
                     val map = dataSnapshot.value as Map<String, String>
                     Log.d("kotlintest", dataSnapshot.value.toString())
-                    for (i in 0..map.size) {
+                    if (map.containsValue(mQuestion.questionUid)) {
 
-                        if (map["fab"] == mQuestion.questionUid) {
-
-                            imageButton.setImageResource(R.drawable.ic_fab_clicked)
-                            flag = true
-                        } else {
-                            imageButton.setImageResource(R.drawable.ic_fab_border)
-                            flag = false
-                        }
+                        imageButton.setImageResource(R.drawable.ic_fab_clicked)
+                        flag = true
+                    } else {
+                        imageButton.setImageResource(R.drawable.ic_fab_border)
+                        flag = false
                     }
                 }
             }
@@ -119,14 +116,15 @@ class QuestionDetailActivity : AppCompatActivity() {
 
                     }
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        dataSnapshot.ref.setValue(null)
-
+                        dataSnapshot.ref.child(mQuestion.questionUid).removeValue()
                     }
                 })
                 flag = false
             } else {
                 imageButton.setImageResource(R.drawable.ic_fab_clicked)
-                mFabRef.push().setValue(mQuestion.questionUid)
+                val mFabData = HashMap<String, Any>()
+                mFabData[mQuestion.questionUid] = mQuestion.questionUid
+                mFabRef.updateChildren(mFabData)
                 flag = true
             }
         }

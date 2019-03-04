@@ -32,6 +32,8 @@
         </activity>
         <activity android:name=".AnswerSendActivity">
         </activity>
+        <activity android:name=".QuestionFabListActivity">
+        </activity>
     </application>
 
 </manifest>

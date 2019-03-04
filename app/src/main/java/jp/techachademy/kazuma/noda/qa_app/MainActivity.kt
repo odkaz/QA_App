@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mToolbar = findViewById(R.id.toolbar)
         setSupportActionBar(mToolbar)
 
+
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { view ->
 
@@ -192,6 +193,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else if (id == R.id.nav_computer) {
             mToolbar.title = "Computer"
             mGenre = 4
+        } else if (id == R.id.nav_favorite) {
+            mToolbar.title = "Favorite"
+
+            val startFabList = Intent(applicationContext, QuestionFabListActivity::class.java)
+            startActivity(startFabList)
         }
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
@@ -205,6 +211,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             mGenreRef!!.removeEventListener(mEventListener)
 
         }
+
         mGenreRef = mDatabaseReference.child(ContentsPATH).child(mGenre.toString())
         mGenreRef!!.addChildEventListener(mEventListener)
 
